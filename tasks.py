@@ -1,4 +1,6 @@
 from crewai import Task
+from agents import tech_spec_agent, success_metrics_agent, final_compiler_agent, user_requirements_agent, feature_definition_agent
+
 
 # 🟢 User Requirements Task
 user_requirements_task = Task(

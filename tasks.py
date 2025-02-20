@@ -4,29 +4,25 @@ from agents import tech_spec_agent, success_metrics_agent, final_compiler_agent,
 
 # 🟢 User Requirements Task
 user_requirements_task = Task(
-    description="""
-    **Objective:** Collect structured product details from the user.  
-    Ask the user to provide the following information:
-      - **Product Name:** {{PRODUCT_NAME}}
-      - **Objective:** {{PRODUCT_OBJECTIVE}}
-      - **Industry/Niche:** {{INDUSTRY}}
-      - **Target Audience:** {{TARGET_AUDIENCE}}
-      - **User Persona:** {{USER_PERSONA}}
-      - **Problem Statement:** {{PROBLEM_STATEMENT}}
-      - **Competitor Analysis:** {{COMPETITOR_ANALYSIS}}
-      - **Core Features:** {{CORE_FEATURES}}
-      - **Unique Selling Points (USPs):** {{UNIQUE_FEATURES}}
-      - **Integrations:** {{INTEGRATIONS}}
-      - **Tech Stack:** {{TECH_STACK}}
-      - **Security & Compliance:** {{SECURITY_COMPLIANCE}}
-      - **Scalability Considerations:** {{SCALABILITY}}
-      - **Success Metrics & KPIs:** {{KPIs}}
-      - **Business Goals:** {{BUSINESS_GOALS}}
-      - **Launch Date:** {{LAUNCH_DATE}}
-      - **Development Roadmap:** {{ROADMAP}}
-      - **Budget Allocation:** {{BUDGET}}
-    Continue questioning until all details are collected.
-    """,
+    description="""Based on this data, and make a comprehensive list for other agents to work on.
+      - **Product Name:** {PRODUCT_NAME}
+      - **Objective:** {PRODUCT_OBJECTIVE}
+      - **Industry/Niche:** {INDUSTRY}
+      - **Target Audience:** {TARGET_AUDIENCE}
+      - **User Persona:** {USER_PERSONA}
+      - **Problem Statement:** {PROBLEM_STATEMENT}
+      - **Competitor Analysis:**{COMPETITOR_ANALYSIS}
+      - **Core Features:** {CORE_FEATURES}
+      - **Unique Selling Points (USPs):** {UNIQUE_FEATURES}
+      - **Integrations:** {INTEGRATIONS}
+      - **Tech Stack:** {TECH_STACK}
+      - **Security & Compliance:** {SECURITY_COMPLIANCE}
+      - **Scalability Considerations:** {SCALABILITY}
+      - **Success Metrics & KPIs:** {KPI}
+      - **Business Goals:** {BUSINESS_GOALS}
+      - **Launch Date:** {LAUNCH_DATE}
+      - **Development Roadmap:** {ROADMAP}
+      - **Budget Allocation:** {BUDGET}""",
     agent=user_requirements_agent, 
     expected_output="A comprehensive list of all the user requirements compiled to help other agents"
 )
@@ -34,7 +30,7 @@ user_requirements_task = Task(
 # 🟢 Feature Definition Task
 feature_definition_task = Task(
     description="""
-    **Objective:** Define and structure the product’s core features.  
+    Define and structure the product’s core features.  
     Using the provided requirements:
       - Identify **MVP features** and their importance.
       - Highlight **full-scale features** beyond MVP.
@@ -50,7 +46,7 @@ feature_definition_task = Task(
 # 🟢 Technical Specifications Task
 tech_spec_task = Task(
     description="""
-    **Objective:** Provide detailed technical specifications.  
+    Provide detailed technical specifications.  
     Define:
       -**Frontend & Backend Technologies:** {{TECH_STACK}}
       -**APIs & Integrations:** {{INTEGRATIONS}}
@@ -66,7 +62,7 @@ tech_spec_task = Task(
 # 🟢 Success Metrics Task
 success_metrics_task = Task(
     description="""
-    **Objective:** Define measurable success criteria for the product.  
+    Define measurable success criteria for the product.  
     Establish:
       -**Key Performance Indicators (KPIs):** {{KPIs}}
       -**User Retention & Growth Metrics**  
@@ -82,12 +78,12 @@ success_metrics_task = Task(
 # 🟢 Final PRD Compilation Task
 final_compiler_task = Task(
     description="""
-    **Objective:** Compile all sections into a structured PRD.  
+    Compile all sections into a structured PRD.  
     Merge outputs from:
-      -**User Requirements**
-      -**Feature Definitions**
-      -**Technical Specifications**
-      -**Success Metrics**
+      -**User Requirements Agent**
+      -**Feature Definitions Agent**
+      -**Technical Specifications Agent**
+      -**Success Metrics Agent**
     Format the PRD as a **Markdown document** with:
       - Proper headers (`#`, `##`, `###`)
       - Bullet points & lists

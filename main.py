@@ -39,7 +39,7 @@ sample_data = {
     "TECH_STACK": "React (Frontend), Django (Backend), PostgreSQL (Database)",
     "SECURITY_COMPLIANCE": "GDPR & SOC2 compliant",
     "SCALABILITY": "Built on AWS with auto-scaling support",
-    "KPIs": ["Monthly Active Users (MAU): 50,000", "Retention Rate: 85%"],
+    "KPI": ["Monthly Active Users (MAU): 50,000", "Retention Rate: 85%"],
     "BUSINESS_GOALS": "Achieve $1M ARR within 12 months",
     "LAUNCH_DATE": "Q3 2025",
     "ROADMAP": "MVP → Beta → Full Launch",
@@ -47,7 +47,7 @@ sample_data = {
 }
 
 
-    # Kickoff the PRD Generation with sample data
+# Kickoff the PRD Generation with sample data
 print("Running PRD AI Crew with Sample Input...\n")
 final_prd = prd_crew.kickoff(inputs=sample_data)
 

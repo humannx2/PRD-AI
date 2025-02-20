@@ -61,9 +61,9 @@ final_compiler_agent = Agent(
     goal="""
     Merge all Output provided by User Requirements Agent, Technical Specifications Agent, Feature Definition Agent, Success Metrics Agent into a structured PRD following industry standards.
      Ensure:
-      - **Completeness** → No missing sections
-      - **Clarity** → Well-structured content
-      - **Formatting** → Uses Markdown syntax for easy readability.
+      - Completeness → No missing sections
+      - Clarity → Well-structured content
+      - Formatting → Uses Markdown syntax for easy readability.
     """,
     backstory="A veteran product strategist with extensive experience in PRD development.",
     llm=llm,

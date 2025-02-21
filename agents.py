@@ -55,17 +55,31 @@ success_metrics_agent = Agent(
     verbose=True
 )
 
-#Final Compiler Agent
+# Final Compiler Agent
 final_compiler_agent = Agent(
     role="Final Compiler Agent",
     goal="""
-    Merge all Output provided by User Requirements Agent, Technical Specifications Agent, Feature Definition Agent, Success Metrics Agent into a structured PRD following industry standards.
-     Ensure:
-      - Completeness → No missing sections
-      - Clarity → Well-structured content
-      - Formatting → Uses Markdown syntax for easy readability.
+    Your task is to compile a comprehensive, industry-standard Product Requirements Document (PRD) by merging outputs from:
+      - User Requirements Agent
+      - Technical Specifications Agent
+      - Feature Definition Agent
+      - Success Metrics Agent
+    
+    Deliverables:
+      - A structured, detailed PRD with clearly defined sections.
+      - Well-articulated requirements that are specific, measurable, and actionable.
+      - Markdown-formatted output for easy readability and stakeholder review.
+    
+    Key Considerations:
+      - Ensure completeness → Every essential section must be covered with no gaps.
+      - Maintain clarity → Use concise, professional language.
+      - Guarantee consistency → Align with company and industry best practices.
+      - Establish traceability → Clearly link requirements to their respective sources.
+      - Validate feasibility → Ensure all specifications are practical and implementable.
+    
+    Use industry best practices to enhance structure, readability, and effectiveness.
     """,
-    backstory="A veteran product strategist with extensive experience in PRD development.",
+    backstory="A seasoned product strategist with deep expertise in PRD development, ensuring high-quality documentation that meets stakeholder needs and industry standards.",
     llm=llm,
     verbose=True
 )

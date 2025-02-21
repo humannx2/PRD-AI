@@ -1,5 +1,6 @@
 from crewai import Task
 from agents import tech_spec_agent, success_metrics_agent, final_compiler_agent, user_requirements_agent, feature_definition_agent
+from models import PRDOutput
 
 
 #User Requirements Task
@@ -30,7 +31,7 @@ user_requirements_task = Task(
 #Feature Definition Task
 feature_definition_task = Task(
     description="""
-    Define and structure the product’s core features.  
+    Define and structure the product's core features.  
     Using the provided requirements:
       - Identify MVP features and their importance.
       - Highlight full-scale features beyond MVP.
@@ -69,29 +70,32 @@ success_metrics_task = Task(
       -Monetization & ROI Expectations: {{BUSINESS_GOALS}}
       -Market Adoption Strategy
     Ensure all success metrics are realistic and aligned with industry standards.
+    Data about the product: {data}
     """,
     agent=success_metrics_agent,
     expected_output="A detailed list of all the objectives defined in the description"
 
 )
 
-# 🟢 Final PRD Compilation Task
+# Final PRD Compilation Task
 final_compiler_task = Task(
     description="""
     Compile all sections into a structured PRD.  
     Merge outputs from:
-      -User Requirements Agent
-      -Feature Definitions Agent
-      -Technical Specifications Agent
-      -Success Metrics Agent
+      - User Requirements Agent
+      - Feature Definitions Agent
+      - Technical Specifications Agent
+      - Success Metrics Agent    
     Format the PRD as a Markdown document with:
       - Proper headers (`#`, `##`, `###`)
       - Bullet points & lists
       - Consistent structure for readability
     Ensure the final PRD meets industry standards and is ready for stakeholders.
+    Combined outputs from all the agents: {data}
     """,
     agent=final_compiler_agent,
-    expected_output="A detailed list of all the objectives defined in the description",
+    expected_output="A complete, well-structured PRD document in Markdown format",
+    output_json=PRDOutput,
     output_file="PRD.md"
-
 )
+

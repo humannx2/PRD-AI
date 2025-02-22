@@ -1,13 +1,9 @@
-# CrewAI
 crewai
+pydantic
 
-# Web Framework (optional, for API if needed)
+# Web Framework
 fastapi
 uvicorn
-
-# Markdown & File Handling
-markdown
-markdown2
 
 # PDF Generation
 pandoc

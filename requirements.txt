@@ -1,3 +1,4 @@
+# Agentic AI
 crewai
 pydantic
 
@@ -8,3 +9,6 @@ uvicorn
 # PDF Generation
 pandoc
 pdfkit
+
+# Environment and Utils
+python-dotenv

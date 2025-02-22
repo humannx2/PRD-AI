@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Dict, List, Optional
 from datetime import datetime
 
 class Stakeholder(BaseModel):
@@ -63,4 +63,28 @@ class PRDOutput(BaseModel):
     success_metrics_and_acceptance_criteria: SuccessMetricsAndAcceptanceCriteria
     risks_and_mitigation_strategies: List[str]
     open_issues_and_questions: List[str]
-    appendices: List[str] 
+    appendices: List[str]
+
+class ProductInput(BaseModel):
+    PRODUCT_NAME: str
+    PRODUCT_OBJECTIVE: str
+    INDUSTRY: str
+    TARGET_AUDIENCE: str
+    USER_PERSONA: str
+    PROBLEM_STATEMENT: str
+    COMPETITOR_ANALYSIS: str
+    CORE_FEATURES: List[str]
+    UNIQUE_FEATURES: List[str]
+    INTEGRATIONS: List[str]
+    TECH_STACK: str
+    SECURITY_COMPLIANCE: str
+    SCALABILITY: str
+    KPI: List[str]
+    BUSINESS_GOALS: str
+    LAUNCH_DATE: str
+    ROADMAP: str
+    BUDGET: str
+
+class PRDResponse(BaseModel):
+    markdown: str
+    raw_data: Dict 

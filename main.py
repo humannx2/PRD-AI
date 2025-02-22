@@ -1,17 +1,34 @@
-from crewai import Crew
-from agents import tech_spec_agent, success_metrics_agent, final_compiler_agent, user_requirements_agent, feature_definition_agent
-from tasks import user_requirements_task, feature_definition_task, tech_spec_task, success_metrics_task, final_compiler_task
-from dotenv import load_dotenv
-import warnings
+# Standard library imports
 import json
+import warnings
 from datetime import datetime
 from json import JSONEncoder
 
-warnings.filterwarnings('ignore')
+# Third-party imports
+from crewai import Crew
+from dotenv import load_dotenv
 
+# Local imports
+from agents import (
+    tech_spec_agent,
+    success_metrics_agent,
+    final_compiler_agent,
+    user_requirements_agent,
+    feature_definition_agent
+)
+from tasks import (
+    user_requirements_task,
+    feature_definition_task,
+    tech_spec_task,
+    success_metrics_task,
+    final_compiler_task
+)
+
+# Configuration
+warnings.filterwarnings('ignore')
 load_dotenv()
 
-
+# Custom encoders
 class DateTimeEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
@@ -48,68 +65,62 @@ data = {
     "SUCCESS_METRICS": None,
 }
 
-crew_1 = Crew(
-    agents=[
-        user_requirements_agent,
-        feature_definition_agent,
-    ],
-    tasks=[
-        user_requirements_task,
-        feature_definition_task,
-    ],
-    verbose=True
-)
-crew_2 = Crew(
-    agents=[
-        user_requirements_agent,
-        tech_spec_agent,
-    ],
-    tasks=[
-        user_requirements_task,
-        tech_spec_task,
-    ],
-    verbose=True
-)
+# Crew definitions and execution
+def execute_crews(input_data=None):
+    # Use provided input data or fall back to sample data
+    product_data = input_data or sample_data   
+    # Crew 1 & 2: Feature Definition and Tech Specs
+    crew_1 = Crew(
+        agents=[
+            user_requirements_agent,
+            feature_definition_agent,
+        ],
+        tasks=[
+            user_requirements_task,
+            feature_definition_task,
+        ],
+        verbose=True
+    )
+    crew_2 = Crew(
+        agents=[
+            user_requirements_agent,
+            tech_spec_agent,
+        ],
+        tasks=[
+            user_requirements_task,
+            tech_spec_task,
+        ],
+        verbose=True
+    )
 
-# Execute Crew 1 & 2 and extract outputs
-crew_1_results = crew_1.kickoff(inputs=sample_data)
-# print(crew_1_results)
-crew_2_results = crew_2.kickoff(inputs=sample_data)
-# print(crew_2_results)
+    # Execute Crew 1 & 2
+    crew_1_results = crew_1.kickoff(inputs=product_data)
+    crew_2_results = crew_2.kickoff(inputs=product_data)
+    
+    data["FEATURE_DEFINITION"] = crew_1_results.raw
+    data["TECH_SPECS"] = crew_2_results.raw
 
-data["FEATURE_DEFINITION"] = crew_1_results.raw
-data["TECH_SPECS"] = crew_2_results.raw
+    # Crew 3: Success Metrics
+    crew_3 = Crew(
+        agents=[success_metrics_agent],
+        tasks=[success_metrics_task],
+        verbose=True
+    )
+    success_metrics_output = crew_3.kickoff(inputs=data)
+    data["SUCCESS_METRICS"] = success_metrics_output.raw
 
-# Crew 3: Generates success metrics
-crew_3 = Crew(
-    agents=[success_metrics_agent],
-    tasks=[success_metrics_task],
-    verbose=True
-)
+    # Crew 4: Final PRD Compilation
+    crew_4 = Crew(
+        agents=[final_compiler_agent],
+        tasks=[final_compiler_task],
+        verbose=True
+    )
+    
+    # Convert data for final processing
+    serialized_data = json.loads(json.dumps(data, cls=DateTimeEncoder))
+    return crew_4.kickoff(inputs=serialized_data)
 
-# Execute Crew 3 and extract output
-success_metrics_output = crew_3.kickoff(inputs=data)
-
-# Update inputs for final compilation
-data["SUCCESS_METRICS"] = success_metrics_output.raw
-
-# Crew 4: Generates the final PRD
-crew_4 = Crew(
-    agents=[final_compiler_agent],
-    tasks=[final_compiler_task],
-    verbose=True
-)
-
-# Convert data to JSON-serializable format
-data = json.loads(json.dumps(data, cls=DateTimeEncoder))
-
-# Execute Crew 4 and get the final PRD output
-prd_output = crew_4.kickoff(inputs=data)
-
-# Convert JSON to Python dictionary
-prd_data = json.loads(prd_output.raw)
-
-# Function to generate Markdown from JSON
+# Markdown generation utilities
 def generate_markdown(prd_data):
     md = f"# {prd_data['title']}\n\n"
     md += f"**Version:** {prd_data['metadata']['version']}\n"
@@ -165,12 +176,19 @@ def generate_markdown(prd_data):
 
     return md
 
-# Generate Markdown
-markdown_output = generate_markdown(prd_data)
+# Main execution
+def main():
+    # Execute crews and get PRD output
+    prd_output = execute_crews()
+    prd_data = json.loads(prd_output.raw)
 
-# Save to a file
-with open("PRD.md", "w", encoding="utf-8") as file:
-    file.write(markdown_output)
+    # Generate and save markdown
+    markdown_output = generate_markdown(prd_data)
+    with open("PRD.md", "w", encoding="utf-8") as file:
+        file.write(markdown_output)
+    
+    print("Markdown file generated: PRD.md")
 
-print("Markdown file generated: PRD.md")
+if __name__ == "__main__":
+    main()
 

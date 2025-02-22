@@ -6,7 +6,7 @@ load_dotenv()
 
 api_key=os.getenv("OPENAI_API_KEY")
 # llm = LLM(model="groq/llama3-8b-8192", temperature=0.7, api_key=api_key)
-llm = LLM(model="openai/gpt-4", temperature=0.7, api_key=api_key)
+llm = LLM(model="openai/gpt-4o-mini", temperature=0.7, api_key=api_key)
 # User Requirements Agent
 user_requirements_agent = Agent(
     role="User Requirements Agent",

@@ -65,16 +65,20 @@ success_metrics_task = Task(
     description="""
     Define measurable success criteria for the product.  
     Establish:
-      -Key Performance Indicators (KPIs): {{KPIs}}
+      -Key Performance Indicators (KPIs)
       -User Retention & Growth Metrics 
-      -Monetization & ROI Expectations: {{BUSINESS_GOALS}}
+      -Monetization & ROI Expectations
       -Market Adoption Strategy
+    
+    Use the following information to define the metrics:
+    User Requirements: {USER_REQUIREMENTS}
+    Feature Definition: {FEATURE_DEFINITION}
+    Technical Specifications: {TECH_SPECS}
+    
     Ensure all success metrics are realistic and aligned with industry standards.
-    Data about the product: {data}
     """,
     agent=success_metrics_agent,
     expected_output="A detailed list of all the objectives defined in the description"
-
 )
 
 # Final PRD Compilation Task
@@ -82,20 +86,49 @@ final_compiler_task = Task(
     description="""
     Compile all sections into a structured PRD.  
     Merge outputs from:
-      - User Requirements Agent
-      - Feature Definitions Agent
-      - Technical Specifications Agent
-      - Success Metrics Agent    
-    Format the PRD as a Markdown document with:
-      - Proper headers (`#`, `##`, `###`)
-      - Bullet points & lists
-      - Consistent structure for readability
+      - User Requirements: {USER_REQUIREMENTS}
+      - Feature Definitions: {FEATURE_DEFINITION}
+      - Technical Specifications: {TECH_SPECS}
+      - Success Metrics: {SUCCESS_METRICS}    
+    
+    Create a well-structured Markdown document with the following format:
+    
+    # [Product Name] - Product Requirements Document
+    
+    ## Executive Summary
+    [Brief overview of the product and its main objectives]
+    
+    ## Problem Statement & Objectives
+    [Detail the problem being solved and key objectives]
+    
+    ## Target Market & User Personas
+    [Describe the target audience and user personas]
+    
+    ## Product Features
+    ### Core Features
+    [List and describe core features]
+    
+    ### Unique Selling Points
+    [Highlight unique features and competitive advantages]
+    
+    ## Technical Specifications
+    [Detail the technical implementation requirements]
+    
+    ## Success Metrics & KPIs
+    [List measurable success criteria]
+    
+    ## Timeline & Milestones
+    [Outline development phases and key dates]
+    
+    ## Risks & Mitigation Strategies
+    [Identify potential risks and mitigation plans]
+    
     Ensure the final PRD meets industry standards and is ready for stakeholders.
-    Combined outputs from all the agents: {data}
     """,
     agent=final_compiler_agent,
     expected_output="A complete, well-structured PRD document in Markdown format",
+    # output_file="PRD.md",
     output_json=PRDOutput,
-    output_file="PRD.md"
+    # output_format="markdown"
 )
 

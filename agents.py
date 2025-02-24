@@ -48,7 +48,7 @@ tech_spec_agent = Agent(
 success_metrics_agent = Agent(
     role="Success Metrics Agent",
     goal="""
-    Establish KPIs, user engagement metrics, and business goals to track the product’s success, based on the data provided by the User Requirement Agent.
+    Establish KPIs, user engagement metrics, and business goals to track the product's success, based on the data provided by the User Requirement Agent.
     """,
     backstory="An expert in data-driven decision-making and growth metrics, ",
     llm=llm,
@@ -82,6 +82,25 @@ final_compiler_agent = Agent(
     backstory="A seasoned product strategist with deep expertise in PRD development, ensuring high-quality documentation that meets stakeholder needs and industry standards.",
     llm=llm,
     verbose=True
+)
+
+# PRD Modification Agents
+prd_analyzer_agent = Agent(
+    role="PRD Analysis Expert",
+    goal="Analyze PRD modification requests and identify required changes",
+    backstory="""You are an experienced Product Requirements Document (PRD) analyst 
+    with expertise in understanding how changes in one section affect the entire document.""",
+    verbose=True,
+    memory=True
+)
+
+prd_modifier_agent = Agent(
+    role="PRD Modification Expert",
+    goal="Modify PRDs based on analysis provided by the PRD Analysis Expert and user requests while maintaining document consistency",
+    backstory="""You are a skilled PRD writer with experience in making precise modifications 
+    while ensuring the document remains coherent and consistent.""",
+    verbose=True,
+    memory=True
 )
 
 

@@ -1,5 +1,7 @@
 from crewai import Task
-from agents import tech_spec_agent, success_metrics_agent, final_compiler_agent, user_requirements_agent, feature_definition_agent
+from agents import (tech_spec_agent, success_metrics_agent, final_compiler_agent, 
+                   user_requirements_agent, feature_definition_agent, 
+                   prd_analyzer_agent, prd_modifier_agent)
 from models import PRDOutput
 
 
@@ -130,5 +132,49 @@ final_compiler_task = Task(
     # output_file="PRD.md",
     output_json=PRDOutput,
     # output_format="markdown"
+)
+
+# PRD Analysis Task
+prd_analysis_task = Task(
+    description="""
+    Analyze the existing PRD and user modification request.
+    
+    PRD Content:
+    {prd_content}
+    
+    User Request:
+    {user_request}
+    
+    Identify:
+    1. Which sections need to be modified
+    2. How the modifications affect other sections
+    3. What content should remain unchanged
+    """,
+    agent=prd_analyzer_agent,
+    expected_output="Analysis of required modifications and affected sections"
+)
+
+# PRD Modification Task
+prd_modification_task = Task(
+    description="""
+    Modify the PRD based on the analysis and user request.
+    
+    Original PRD:
+    {prd_content}
+    
+    User Request:
+    {user_request}
+    
+    Analysis Results:
+    {analysis_result}
+    
+    Requirements:
+    1. Only modify identified sections
+    2. Maintain consistency with unchanged sections
+    3. Ensure modifications align with overall PRD objectives
+    """,
+    agent=prd_modifier_agent,
+    expected_output="Modified PRD with requested changes",
+    output_json=PRDOutput
 )
 

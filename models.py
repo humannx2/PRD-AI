@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from datetime import datetime
 
 class Stakeholder(BaseModel):
@@ -86,3 +86,15 @@ class ProductInput(BaseModel):
 class PRDResponse(BaseModel):
     markdown: str
     raw_data: Dict 
+
+class ModificationRequest(BaseModel):
+    raw_data: Dict[str, Any]
+    user_request: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "raw_data": "Output from /generate-prd endpoint",
+                "user_request": "Add a section about security requirements"
+            }
+        } 

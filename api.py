@@ -4,7 +4,8 @@ import json
 # Import from main.py
 from main import execute_crews, generate_markdown
 # Import models
-from models import ProductInput, PRDResponse
+from models import ProductInput, PRDResponse, ModificationRequest
+from prd_modifier import modify_prd
 
 app = FastAPI(
     title="PRD Generator API",
@@ -35,6 +36,41 @@ async def generate_prd(product_input: ProductInput):
         raise HTTPException(
             status_code=500,
             detail=f"Error generating PRD: {str(e)}"
+        )
+
+@app.post("/modify-prd", response_model=PRDResponse)
+async def modify_prd_endpoint(modification_request: ModificationRequest):
+    try:
+        if modification_request is None:
+            raise HTTPException(
+                status_code=400,
+                detail="Modification request is required"
+            )
+        
+        if not modification_request.raw_data:
+            raise HTTPException(
+                status_code=400,
+                detail="PRD data is required. Please first generate a PRD using the /generate-prd endpoint"
+            )
+        
+        # Get the modified PRD data
+        modified_prd = modify_prd(
+            modification_request.raw_data,
+            modification_request.user_request
+        )
+        
+        # Generate markdown for the modified PRD
+        markdown_output = generate_markdown(modified_prd)
+        
+        # Return the response in the correct format
+        return {
+            "markdown": markdown_output,
+            "raw_data": modified_prd
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error modifying PRD: {str(e)}"
         )
 
 if __name__ == "__main__":

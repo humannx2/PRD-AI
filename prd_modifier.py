@@ -5,7 +5,8 @@ from typing import Dict
 import json
 from tasks import prd_analysis_task, prd_modification_task
 
-def modify_prd(prd_data: Dict, user_request: str) -> PRDResponse:
+# def modify_prd(prd_data: Dict, user_request: str) -> PRDResponse:
+def modify_prd(prd_data: Dict, user_request: str):
     data={
         "prd_content": json.dumps(prd_data, indent=2),
         "user_request": user_request,
@@ -29,15 +30,16 @@ def modify_prd(prd_data: Dict, user_request: str) -> PRDResponse:
     data["analysis_result"] = modified_analysis_prd.raw
     modified_prd = modification_crew.kickoff(inputs=data)
     modified_prd_data = json.loads(modified_prd.raw)
+    return modified_prd_data
 
-    # Generate updated markdown
-    from main import generate_markdown
-    markdown_output = generate_markdown(modified_prd_data)
+    # # Generate updated markdown
+    # from main import generate_markdown
+    # markdown_output = generate_markdown(modified_prd_data)
 
-    return PRDResponse(
-        markdown=markdown_output,
-        raw_data=modified_prd_data
-    )
+    # return PRDResponse(
+    #     markdown=markdown_output,
+    #     raw_data=modified_prd_data
+    # )
 
 # Sample usage
 if __name__ == "__main__":

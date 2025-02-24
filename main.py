@@ -66,9 +66,13 @@ data = {
 }
 
 # Crew definitions and execution
-def execute_crews(input_data=None):
-    # Use provided input data or fall back to sample data
-    product_data = input_data or sample_data   
+def execute_crews(input_data):
+    # # Use provided input data or fall back to sample data
+    # if input_data is None:
+    #     product_data = sample_data
+    # else:
+    #     product_data = input_data
+    product_data = input_data
     # Crew 1 & 2: Feature Definition and Tech Specs
     crew_1 = Crew(
         agents=[
@@ -118,7 +122,8 @@ def execute_crews(input_data=None):
     
     # Convert data for final processing
     serialized_data = json.loads(json.dumps(data, cls=DateTimeEncoder))
-    return crew_4.kickoff(inputs=serialized_data)
+    final_output = crew_4.kickoff(inputs=serialized_data)
+    return final_output
 
 # Markdown generation utilities
 def generate_markdown(prd_data):
@@ -167,12 +172,6 @@ def generate_markdown(prd_data):
 
     md += "## Risks and Mitigation Strategies\n"
     md += "\n".join([f"- {risk}" for risk in prd_data["risks_and_mitigation_strategies"]]) + "\n\n"
-
-    md += "## Open Issues and Questions\n"
-    md += "\n".join([f"- {issue}" for issue in prd_data["open_issues_and_questions"]]) + "\n\n"
-
-    md += "## Appendices\n"
-    md += "\n".join([f"- {appendix}" for appendix in prd_data["appendices"]]) + "\n"
 
     return md
 

@@ -62,8 +62,6 @@ class PRDOutput(BaseModel):
     timeline_and_milestones: TimelineAndMilestones
     success_metrics_and_acceptance_criteria: SuccessMetricsAndAcceptanceCriteria
     risks_and_mitigation_strategies: List[str]
-    open_issues_and_questions: List[str]
-    appendices: List[str]
 
 class ProductInput(BaseModel):
     PRODUCT_NAME: str

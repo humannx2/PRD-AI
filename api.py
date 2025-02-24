@@ -16,6 +16,11 @@ app = FastAPI(
 async def generate_prd(product_input: ProductInput):
     try:
         # Execute crews and get PRD output
+        if product_input is None:
+            raise HTTPException(
+                status_code=400,
+                detail="Product input is required"
+            )
         prd_output = execute_crews(dict(product_input))
         prd_data = json.loads(prd_output.raw)
 

@@ -81,7 +81,7 @@ def generate_prd(data: Dict[str, Any]) -> Dict[str, Any]:
         raise Exception(f"Error: {response.text}")
     return response.json()
 
-def modify_prd(raw_data: Dict[str, Any], modification_request: str) -> PRDResponse:
+def modify_prd(raw_data: Dict[str, Any], modification_request: str):
     """Modify PRD using the API"""
     modification_data = {
         "raw_data": raw_data,
@@ -90,11 +90,12 @@ def modify_prd(raw_data: Dict[str, Any], modification_request: str) -> PRDRespon
     try:
         response = requests.post(MODIFY_ENDPOINT, json=modification_data)
         response.raise_for_status()  # Raise an exception for bad status codes
-        response_json = response.json()
-        return PRDResponse(
-            markdown=response_json["markdown"],
-            raw_data=response_json["raw_data"]
-        )
+        # response_json = response.json()
+        return response
+        # return PRDResponse(
+        #     markdown=response_json["markdown"],
+        #     raw_data=response_json["raw_data"]
+        # )
     except requests.exceptions.RequestException as e:
         if response.status_code == 500:
             error_detail = response.json().get('detail', str(e))

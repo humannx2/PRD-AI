@@ -54,6 +54,7 @@ async def modify_prd_endpoint(modification_request: ModificationRequest):
             )
         
         # Get the modified PRD data
+        # in json
         modified_prd = modify_prd(
             modification_request.raw_data,
             modification_request.user_request

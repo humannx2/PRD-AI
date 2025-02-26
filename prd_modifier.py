@@ -30,6 +30,7 @@ def modify_prd(prd_data: Dict, user_request: str):
     data["analysis_result"] = modified_analysis_prd.raw
     modified_prd = modification_crew.kickoff(inputs=data)
     modified_prd_data = json.loads(modified_prd.raw)
+    print (modified_prd_data)
     return modified_prd_data
 
     # # Generate updated markdown

@@ -29,7 +29,6 @@ user_requirements_task = Task(
     agent=user_requirements_agent, 
     expected_output="A comprehensive list of all the user requirements compiled to help other agents"
 )
-
 #Feature Definition Task
 feature_definition_task = Task(
     description="""
